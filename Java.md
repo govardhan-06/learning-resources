@@ -241,7 +241,7 @@ This method ensures you capture a single character from the user's input.
 int numDigits = String.valueOf(number).length();
 ```
 
-## String reversal
+## String comparison
 
 In Java, string comparison can be done using several methods depending on the level of comparison you need (case-sensitive, case-insensitive, etc.). Here are the common ways to compare strings in Java:
 
