@@ -342,4 +342,92 @@ public class StringComparison {
 }
 ```
 
+##String reversal
+
+In Java, you can reverse a string in several ways. Below are some common methods:
+
+### 1. Using `StringBuilder` or `StringBuffer`
+Java's `StringBuilder` and `StringBuffer` classes have a `reverse()` method that you can use directly.
+
+```java
+public class StringReversal {
+    public static void main(String[] args) {
+        String original = "Hello, World!";
+        
+        // Using StringBuilder
+        StringBuilder sb = new StringBuilder(original);
+        String reversed = sb.reverse().toString();
+        
+        System.out.println("Reversed String: " + reversed);
+    }
+}
+```
+
+### 2. Using a Loop
+You can reverse a string by iterating from the end to the beginning and building a new string.
+
+```java
+public class StringReversal {
+    public static void main(String[] args) {
+        String original = "Hello, World!";
+        String reversed = "";
+
+        for (int i = original.length() - 1; i >= 0; i--) {
+            reversed += original.charAt(i);
+        }
+
+        System.out.println("Reversed String: " + reversed);
+    }
+}
+```
+
+### 3. Using Recursion
+You can reverse a string recursively by breaking the problem down into smaller subproblems.
+
+```java
+public class StringReversal {
+    public static void main(String[] args) {
+        String original = "Hello, World!";
+        String reversed = reverseRecursively(original);
+        
+        System.out.println("Reversed String: " + reversed);
+    }
+
+    public static String reverseRecursively(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        return reverseRecursively(str.substring(1)) + str.charAt(0);
+    }
+}
+```
+
+### 4. Using Java 8 Streams
+If you prefer using functional programming, Java 8 streams provide a concise way to reverse a string.
+
+```java
+import java.util.stream.Collectors;
+
+public class StringReversal {
+    public static void main(String[] args) {
+        String original = "Hello, World!";
+        
+        String reversed = original.chars()
+                                  .mapToObj(c -> (char) c)
+                                  .collect(Collectors.collectingAndThen(
+                                      Collectors.toList(),
+                                      lst -> { 
+                                          java.util.Collections.reverse(lst); 
+                                          return lst.stream();
+                                      }))
+                                  .map(String::valueOf)
+                                  .collect(Collectors.joining());
+                                  
+        System.out.println("Reversed String: " + reversed);
+    }
+}
+```
+
+Each of these methods achieves the same result—reversing the given string—but may be suitable for different use cases depending on your needs or constraints.
+
 For content comparison, it's always best to use `equals()` or `compareTo()` methods. The `==` operator should only be used if you specifically need to compare the references of the strings.
