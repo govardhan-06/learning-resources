@@ -428,6 +428,48 @@ public class StringReversal {
 }
 ```
 
+### Printing %
+
 Each of these methods achieves the same result—reversing the given string—but may be suitable for different use cases depending on your needs or constraints.
+
+In Java, when you use the `printf` or `String.format` methods and want to include a percent symbol (`%`) in the output, you need to escape it by doubling it (`%%`). This is because the percent symbol is used as a special character for formatting instructions (e.g., `%d` for integers, `%f` for floating-point numbers).
+
+Here's how you can include a percent symbol in your formatted output:
+
+### Example Using `System.out.printf`
+```java
+public class PercentSymbolExample {
+    public static void main(String[] args) {
+        double value = 85.5;
+        
+        // Using printf to include a percent symbol
+        System.out.printf("The success rate is %.1f%%.%n", value);
+    }
+}
+```
+
+### Example Using `String.format`
+```java
+public class PercentSymbolExample {
+    public static void main(String[] args) {
+        double value = 85.5;
+        
+        // Using String.format to include a percent symbol
+        String result = String.format("The success rate is %.1f%%.", value);
+        System.out.println(result);
+    }
+}
+```
+
+### Output
+```
+The success rate is 85.5%.
+```
+
+### Explanation
+- **`%%`**: When using `printf` or `String.format`, `%%` is used to print a single `%` symbol in the output.
+- **Formatting Specifiers**: Other specifiers like `%.1f` format the number to one decimal place.
+
+Using `%%` in formatted strings is a simple and effective way to include the percent symbol in your Java output.
 
 For content comparison, it's always best to use `equals()` or `compareTo()` methods. The `==` operator should only be used if you specifically need to compare the references of the strings.
