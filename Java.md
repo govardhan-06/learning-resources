@@ -240,3 +240,106 @@ This method ensures you capture a single character from the user's input.
 ```
 int numDigits = String.valueOf(number).length();
 ```
+
+## String reversal
+
+In Java, string comparison can be done using several methods depending on the level of comparison you need (case-sensitive, case-insensitive, etc.). Here are the common ways to compare strings in Java:
+
+### 1. Using `equals()` Method
+The `equals()` method compares the content of two strings for equality in a case-sensitive manner.
+
+```java
+public class StringComparison {
+    public static void main(String[] args) {
+        String str1 = "Hello";
+        String str2 = "Hello";
+        String str3 = "hello";
+
+        // Case-sensitive comparison
+        boolean result1 = str1.equals(str2); // true
+        boolean result2 = str1.equals(str3); // false
+
+        System.out.println("str1 equals str2: " + result1);
+        System.out.println("str1 equals str3: " + result2);
+    }
+}
+```
+
+### 2. Using `equalsIgnoreCase()` Method
+The `equalsIgnoreCase()` method compares two strings, ignoring case considerations.
+
+```java
+public class StringComparison {
+    public static void main(String[] args) {
+        String str1 = "Hello";
+        String str2 = "hello";
+
+        // Case-insensitive comparison
+        boolean result = str1.equalsIgnoreCase(str2); // true
+
+        System.out.println("str1 equalsIgnoreCase str2: " + result);
+    }
+}
+```
+
+### 3. Using `compareTo()` Method
+The `compareTo()` method compares two strings lexicographically. It returns:
+- `0` if the strings are equal,
+- A positive number if the first string is lexicographically greater than the second string,
+- A negative number if the first string is lexicographically less than the second string.
+
+```java
+public class StringComparison {
+    public static void main(String[] args) {
+        String str1 = "Apple";
+        String str2 = "Banana";
+        String str3 = "Apple";
+
+        // Lexicographical comparison
+        int result1 = str1.compareTo(str2); // Negative value
+        int result2 = str1.compareTo(str3); // 0
+
+        System.out.println("str1 compareTo str2: " + result1);
+        System.out.println("str1 compareTo str3: " + result2);
+    }
+}
+```
+
+### 4. Using `compareToIgnoreCase()` Method
+The `compareToIgnoreCase()` method works like `compareTo()`, but it ignores case differences.
+
+```java
+public class StringComparison {
+    public static void main(String[] args) {
+        String str1 = "Apple";
+        String str2 = "apple";
+
+        // Lexicographical comparison ignoring case
+        int result = str1.compareToIgnoreCase(str2); // 0
+
+        System.out.println("str1 compareToIgnoreCase str2: " + result);
+    }
+}
+```
+
+### 5. Using `==` Operator
+The `==` operator compares the references (addresses in memory) of two strings, not their content. Use it with caution as it checks if both strings point to the same object.
+
+```java
+public class StringComparison {
+    public static void main(String[] args) {
+        String str1 = "Hello";
+        String str2 = "Hello";
+        String str3 = new String("Hello");
+
+        // Reference comparison
+        boolean result1 = (str1 == str2); // true, because of string interning
+        boolean result2 = (str1 == str3); // false, because str3 is a new object
+
+        System.out.println("str1 == str2: " + result1);
+        System.out.println("str1 == str3: " + result2);
+    }
+}
+```
+
+For content comparison, it's always best to use `equals()` or `compareTo()` methods. The `==` operator should only be used if you specifically need to compare the references of the strings.
