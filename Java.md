@@ -65,7 +65,7 @@ Here’s how you can round a `double` or `float` value to two decimal places usi
 2. **Using `printf()`**
    ```java
    double value = 123.456789;
-   System.out.printf("%.2f%n", value); // Output: 123.46
+   System.out.printf("%.2f\n", value); // Output: 123.46
    ```
 
 3. **Using `Math.round()`**
