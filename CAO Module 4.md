@@ -124,3 +124,62 @@ This shows that any memory block can map to only one cache line, and if two bloc
 - **Block 3502** (which contains memory address 56047) is stored in **cache line 39** with a tag `11011`.
   
 Each memory block can map to only one cache line, determined by the **cache block index**.
+
+Direct mapping is a caching technique used in computer architecture to efficiently store and retrieve data from a cache memory. Here’s a detailed explanation of direct mapping, particularly in the context of the provided memory and cache configuration.
+
+### Basic Concepts of Caching:
+1. **Cache Memory**: A smaller, faster type of volatile memory located close to the CPU. It stores frequently accessed data and instructions to reduce the average time to access data from the main memory (RAM).
+
+2. **Cache Block (or Cache Line)**: A unit of data transferred between the cache and main memory. Each block holds a fixed number of bytes (or words).
+
+3. **Mapping Function**: This determines how data from main memory is assigned to cache locations. Different mapping techniques include direct mapping, associative mapping, and set-associative mapping.
+
+### What is Direct Mapping?
+In direct mapping, each block in main memory maps to exactly one cache line. This means that for every address in the main memory, there is a specific location in the cache where that address can be stored. Here’s how it works in more detail:
+
+#### 1. **Address Structure**:
+In the case of direct mapping, a memory address is typically divided into three parts:
+- **Tag**: Used to identify whether the data currently in the cache line corresponds to the requested memory address.
+- **Index**: Determines which cache line to check for data. This is derived from the memory address.
+- **Offset**: Indicates the specific byte or word within a cache line.
+
+In your example:
+- **Total address size**: 16 bits
+- **Tag size**: 6 bits
+- **Index size**: 8 bits
+- **Offset size**: 2 bits
+
+#### 2. **Mapping Process**:
+When the CPU wants to read or write data, it generates a memory address:
+1. **Extract the Index**: The index bits are used to determine which cache line to look at.
+2. **Check the Tag**: The tag bits are compared against the tag stored in that cache line to see if the data is valid.
+3. **Access the Data**:
+   - If the tags match (a **cache hit**), the CPU retrieves the data from the cache line.
+   - If the tags do not match (a **cache miss**), the CPU fetches the data from main memory and updates the cache line with the new data, also updating the tag.
+
+#### 3. **Example**:
+Let’s assume you have a memory address (in binary):
+```
+A = 00000000 00000000
+```
+In this case:
+- The last 2 bits are used for the **offset** (selecting one of 4 words).
+- The next 8 bits are for the **index**, which determines which of the 256 cache blocks to access.
+- The first 6 bits represent the **tag**.
+
+When the CPU accesses the address:
+1. It computes the cache line index from the address (using the index bits).
+2. It checks the cache line at that index for a valid tag.
+3. Depending on whether the tag matches or not, it either retrieves the data from the cache or loads it from memory into the cache.
+
+### Advantages and Disadvantages:
+- **Advantages**:
+  - **Simplicity**: Direct mapping is straightforward to implement because each block in memory has a specific location in the cache.
+  - **Fast Access**: Access times are fast since only one cache line needs to be checked.
+
+- **Disadvantages**:
+  - **Conflict Misses**: Multiple memory addresses can map to the same cache line (i.e., if they differ in the tag but have the same index). This can lead to higher cache miss rates, especially if frequently accessed data is mapped to the same line.
+  - **Limited Flexibility**: If many blocks compete for the same cache line, it can lead to inefficient use of cache.
+
+### Conclusion:
+In summary, direct mapping is a simple and effective way to manage cache memory, but it may lead to inefficiencies due to conflict misses. Understanding how direct mapping works helps in optimizing cache performance and system efficiency in computer architecture.
