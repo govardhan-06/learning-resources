@@ -183,3 +183,78 @@ When the CPU accesses the address:
 
 ### Conclusion:
 In summary, direct mapping is a simple and effective way to manage cache memory, but it may lead to inefficiencies due to conflict misses. Understanding how direct mapping works helps in optimizing cache performance and system efficiency in computer architecture.
+
+# Set-Associative Mapping
+
+In a cache memory system, addresses from main memory are divided into three fields: **tag**, **index**, and **offset**. Each of these fields plays a crucial role in determining where data is stored in the cache and how it can be accessed. Let’s break down these components and illustrate them with an example.
+
+### 1. Address Breakdown
+
+When a CPU generates a memory address, it typically consists of multiple bits. For example, consider a scenario where we have:
+
+- **Main Memory Size**: 128 KB (which is \(128 \times 1024 = 131072\) bytes)
+- **Cache Size**: 16 KB (which is \(16 \times 1024 = 16384\) bytes)
+- **Block Size**: 256 bytes
+
+**Total Number of Blocks in Cache:**
+\[
+\text{Total Cache Blocks} = \frac{\text{Cache Size}}{\text{Block Size}} = \frac{16384}{256} = 64 \text{ blocks}
+\]
+
+**Number of Sets in Cache:**
+Assuming a 2-way set associative cache:
+\[
+\text{Number of Sets} = \frac{\text{Total Cache Blocks}}{\text{Number of Ways}} = \frac{64}{2} = 32 \text{ sets}
+\]
+
+### 2. Address Fields
+
+**Bits Required:**
+- **Physical Address Size**: The size of the main memory (128 KB) means we need \( \log_2(128 \times 1024) = 17 \) bits for the physical address.
+- **Offset**: Since each block is 256 bytes, the number of bits needed for the offset is:
+  \[
+  \text{Offset bits} = \log_2(256) = 8 \text{ bits}
+  \]
+- **Index**: With 32 sets, the index field needs:
+  \[
+  \text{Index bits} = \log_2(32) = 5 \text{ bits}
+  \]
+- **Tag**: The remaining bits in the address will form the tag:
+  \[
+  \text{Tag bits} = \text{Total Address bits} - (\text{Index bits} + \text{Offset bits}) = 17 - (5 + 8) = 4 \text{ bits}
+  \]
+
+### 3. Example of Address Breakdown
+
+Let’s take a hypothetical memory address in binary format: **10101010101010101** (17 bits).
+
+**Address Format:**
+- **Tag**: 4 bits
+- **Index**: 5 bits
+- **Offset**: 8 bits
+
+**Example Address Breakdown**:
+Assuming the binary address is:
+```
+Tag | Index | Offset
+1110 | 01010 | 00000001
+```
+- **Tag (1110)**: This identifies which block of main memory is stored in the corresponding cache set. It acts as a unique identifier for that specific block of memory.
+- **Index (01010)**: This points to the cache set (in this case, set 10) where the data may reside. For a 2-way set associative cache, this set can contain 2 different blocks of memory.
+- **Offset (00000001)**: This specifies the particular byte within the 256-byte cache line. The offset is needed to locate the exact byte requested from the block stored in the cache.
+
+### 4. Cache Lookup Process
+
+When the CPU needs to access data at this memory address:
+1. **Extract Fields**: The cache controller extracts the tag, index, and offset from the address.
+2. **Index Lookup**: It uses the index to determine which cache set to check.
+3. **Tag Comparison**: In the chosen set, it compares the tag of each block with the tag extracted from the address to determine if the desired block is present in the cache (cache hit).
+4. **Data Access**: If there is a match (hit), the data is accessed using the offset. If there’s no match (miss), the block is fetched from main memory, stored in the cache (possibly replacing one of the existing blocks), and then the requested data is accessed using the offset.
+
+### Summary
+
+- **Tag**: Uniquely identifies a memory block stored in the cache.
+- **Index**: Indicates the specific set within the cache.
+- **Offset**: Points to the specific byte within a cache line.
+
+This structured approach allows caches to operate efficiently, reducing access times and improving overall system performance.
